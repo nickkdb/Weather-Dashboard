@@ -29,7 +29,7 @@
 
 .card {
    /* margin-top: 20px; */
-    height: 200px;
+    height: 225px;
 }
 
 .navbar {
@@ -47,11 +47,11 @@ top: -11rem;
 
 .forecast {
     background: rgb(0, 132, 255);
-    height: 175px;
+    height: 164px;
     width: 140px;
     border-radius: 12px;
     position: relative;
-    bottom: 0;
+    bottom: 5px;
     left: -12px;
 }
 
@@ -60,7 +60,12 @@ top: -11rem;
 }
 
 #sarah {
-    margin-top: 15px;
+    margin-top: 5px;
     font-size: 30px;
     font-weight: 500;
+}
+
+.adjust {
+    position: relative;
+    bottom: 11px;
 }
