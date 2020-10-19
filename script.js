@@ -51,6 +51,14 @@ $(document).ready(function(){
     function setUV(input) {
         var uv= input.value;
         $(uvIndex).html("UV Index: <span> " + uv + "</span>" );
+
+        if (uv <= 3) {
+            $("span").addClass("low");
+        } else if (3 < uv && uv <= 7) {
+            $("span").addClass("moderate");
+        } else if (uv > 7) {
+            $("span").addClass("high");
+        }
     }
 
 })

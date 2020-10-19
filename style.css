@@ -69,3 +69,23 @@ top: -11rem;
     position: relative;
     bottom: 11px;
 }
+
+span {
+    background-color: red;
+    margin-left: 10px;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.low {
+    background-color: gold;
+}
+
+.moderate {
+    background-color: darkorange;
+}
+
+.high {
+    background-color: crimson;
+}
