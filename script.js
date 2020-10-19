@@ -1,5 +1,5 @@
 var apiKey= "d8edbfd8347bc54ee0c89492b16ea074"
-var searchCity= $("#searchTerm");
+var search= $("#searchTerm");
 var cityTitle= $("#cityTitle");
 var temp= $("#temp");
 var humid= $("#humidity");
@@ -9,30 +9,35 @@ var uvIndex= $("#uvindex");
 $(document).ready(function(){
     $(".btn").on("click", function(e) {
         e.preventDefault();
-        searchCity = searchCity.val();
+        var searchCity = search.val();
         var queryURL1= "https://api.openweathermap.org/data/2.5/weather?q=" +  searchCity + "&appid=" + apiKey + "&units=imperial";
+        var queryFiveDay= "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid=" + apiKey + "&units=imperial";
     
         $.ajax({
             url: queryURL1,
             method: "GET"
-        }).then(function(response){
-            var lat= response.coord.lat;
-            var lon= response.coord.lon;
+        }).then(function(oneDayData){
+            var lat= oneDayData.coord.lat;
+            var lon= oneDayData.coord.lon;
             var queryUV= "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
             $.ajax({
                 url: queryUV,
                 method: "GET"
-            }).then(function(data){
-                console.log(response);
-                console.log(data);
-                setCard(response);
-                setUV(data);
+            }).then(function(uvData){
+                $.ajax({
+                    url: queryFiveDay,
+                    method: "GET"
+                }).then(function(fiveDayData){
+                    console.log(oneDayData);
+                    console.log(uvData);
+                    console.log(fiveDayData);
+                    setCard(oneDayData);
+                    setUV(uvData);
+                    setFiveDay(fiveDayData);
+                    
+                })
             })
         })
-
-
-
-
     })
 
     function setCard(input) {
@@ -61,6 +66,23 @@ $(document).ready(function(){
         }
     }
 
+    function setFiveDay(input) {      
+
+        for (var i= 1, j= 0; i < 6; i++, j++) {
+            $("#day" + i).text(moment().add(j, 'day').format('l'));
+        }
+
+        for (var a= 1, b= 0; a < 6; a++, b += 8) {
+            $("#temp" + a).text("Temp: " + input.list[b].main.temp + "°F");
+            $("#casth" + a).text("Humidity: " + input.list[b].main.humidity + "%");
+
+            var icon= input.list[b].weather[0].icon;
+            var iconURL= "http://openweathermap.org/img/w/" + icon + ".png";
+            $("<img>", {
+                src: iconURL,
+                alt: "icon" + a,
+                class: "fiveDayIcons"
+            }).appendTo("#day" + a);
+        }
+    }   
 })
-
-
