@@ -28,21 +28,7 @@
 }
 
 .card {
-   /* margin-top: 20px; */
     height: 225px;
-}
-
-.navbar {
-    width: 25rem;
-   /* margin-top: 20px; */
-    border-radius: 12px;
-    height: 450px;
-}
-
-.form-inline {
-position: relative;
-left: 25px;
-top: -11rem;
 }
 
 .forecast {
@@ -98,6 +84,25 @@ span {
     font-weight: 700;
 }
 
-.fiveDayIcons {
-    float: none;
+.group {
+    width: 100px;
+    margin: 0;
+    padding: 0;
 }
+
+.saves {
+    margin-top: 25px;
+    color: white;
+    position: relative;
+    font-size: x-large;
+    background-color: rgba(0, 132, 255, 0.596);
+    border-radius: 6px;
+    padding-left: 1rem;
+}
+
+.saves:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
