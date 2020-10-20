@@ -5,11 +5,27 @@ var temp= $("#temp");
 var humid= $("#humidity");
 var windspeed= $("#windspeed");
 var uvIndex= $("#uvindex");
+var arr;
+var lastsearch;
 
 $(document).ready(function(){
-    $(".btn").on("click", function(e) {
-        e.preventDefault();
+    
+    getSearches();
+
+    $(".btn").on("click", startSearch);
+
+    $(".saves").on("click", function() {
+        console.log(this.textContent);
+        lastsearch = this.textContent;
+        localStorage.setItem("lastsearch", lastsearch);
+        search.val(lastsearch);
+        startSearch();
+    })
+
+    function startSearch() {
         var searchCity = search.val();
+        lastsearch= searchCity;
+        localStorage.setItem("lastsearch", lastsearch);
         var queryURL1= "https://api.openweathermap.org/data/2.5/weather?q=" +  searchCity + "&appid=" + apiKey + "&units=imperial";
         var queryFiveDay= "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid=" + apiKey + "&units=imperial";
     
@@ -28,17 +44,14 @@ $(document).ready(function(){
                     url: queryFiveDay,
                     method: "GET"
                 }).then(function(fiveDayData){
-                    console.log(oneDayData);
-                    console.log(uvData);
-                    console.log(fiveDayData);
-                    setCard(oneDayData);
-                    setUV(uvData);
-                    setFiveDay(fiveDayData);
-                    
+                        setCard(oneDayData);
+                        setUV(uvData);
+                        setFiveDay(fiveDayData);                   
+                        saveSearch();
                 })
             })
-        })
-    })
+        })       
+    }
 
     function setCard(input) {
         var icon= input.weather[0].icon;
@@ -78,11 +91,45 @@ $(document).ready(function(){
 
             var icon= input.list[b].weather[0].icon;
             var iconURL= "http://openweathermap.org/img/w/" + icon + ".png";
+            $("<br>").appendTo("#day" + a);
             $("<img>", {
                 src: iconURL,
                 alt: "icon" + a,
-                class: "fiveDayIcons"
             }).appendTo("#day" + a);
         }
-    }   
+    }
+    
+    function saveSearch() {
+        var name= search.val();
+        if (arr.includes(name)) {
+            return;
+        } else {
+            $("<p>", {
+                text: name,
+                class: "saves",
+                value: name 
+            }).appendTo(".previous");
+            arr.push(name);
+            localStorage.setItem("searches", JSON.stringify(arr));
+        }       
+    }
+
+    function getSearches() {
+        arr= JSON.parse(localStorage.getItem("searches"));
+        var last= localStorage.getItem("lastsearch"); 
+        search.val(last);       
+        if (!arr) {
+            arr = [];
+        } else {
+            /*var lastsearch= arr[arr.length - 1];*/
+            for (var i= 0; i< arr.length; i ++) {
+                    $("<p>", {
+                        text: arr[i],
+                        class: "saves",
+                        value: arr[i] 
+                    }).appendTo(".previous");            
+            }          
+            startSearch();
+        }
+    }
 })
