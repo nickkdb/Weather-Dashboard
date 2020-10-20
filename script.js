@@ -14,7 +14,7 @@ $(document).ready(function(){
 
     $(".btn").on("click", startSearch);
 
-    $(".saves").on("click", function() {
+    $(".previous").on("click", "p", function() {
         console.log(this.textContent);
         lastsearch = this.textContent;
         localStorage.setItem("lastsearch", lastsearch);
