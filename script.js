@@ -15,7 +15,6 @@ $(document).ready(function(){
     $(".btn").on("click", startSearch);
 
     $(".previous").on("click", "p", function() {
-        console.log(this.textContent);
         lastsearch = this.textContent;
         localStorage.setItem("lastsearch", lastsearch);
         search.val(lastsearch);
@@ -44,7 +43,6 @@ $(document).ready(function(){
                     url: queryFiveDay,
                     method: "GET"
                 }).then(function(fiveDayData){
-                    console.log(fiveDayData);
                         setCard(oneDayData);
                         setUV(uvData);
                         setFiveDay(fiveDayData);                   
