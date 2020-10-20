@@ -44,6 +44,7 @@ $(document).ready(function(){
                     url: queryFiveDay,
                     method: "GET"
                 }).then(function(fiveDayData){
+                    console.log(fiveDayData);
                         setCard(oneDayData);
                         setUV(uvData);
                         setFiveDay(fiveDayData);                   
@@ -81,11 +82,11 @@ $(document).ready(function(){
 
     function setFiveDay(input) {      
 
-        for (var i= 1, j= 0; i < 6; i++, j++) {
-            $("#day" + i).text(moment().add(j, 'day').format('l'));
+        for (var i= 1; i < 6; i++) {
+            $("#day" + i).text(moment().add(i, 'day').format('l'));
         }
 
-        for (var a= 1, b= 0; a < 6; a++, b += 8) {
+        for (var a= 1, b= 7; a < 6; a++, b += 8) {
             $("#temp" + a).text("Temp: " + input.list[b].main.temp + "°F");
             $("#casth" + a).text("Humidity: " + input.list[b].main.humidity + "%");
 
